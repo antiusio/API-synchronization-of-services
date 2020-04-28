@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -32,7 +33,7 @@ namespace WorkUaApiCore
             get { return id; }
             set { id = value; OnPropertyChanged("Id"); }
         }
-        public string phone;
+        private string phone;
         public string Phone
         {
             get { return phone; }
@@ -54,6 +55,19 @@ namespace WorkUaApiCore
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+        public override bool Equals(object obj)
+        {
+            if(!(obj is Response))
+                return base.Equals(obj);
+            else
+            {
+                return this.Id.Equals(((Response)obj).Id);
+            }
         }
     }
 }

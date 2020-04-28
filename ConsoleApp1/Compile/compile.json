@@ -1,0 +1,6 @@
+{
+  "Developer comand prompt"
+  "cd C:\\Users\\Administrator\\source\\repos\\MainWin\\ConsoleApp1";
+    "dotnet publish -c Debug -r win10-64"
+
+}

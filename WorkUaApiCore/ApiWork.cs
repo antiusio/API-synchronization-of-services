@@ -2,26 +2,32 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Net;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 
 namespace WorkUaApiCore
 {
-    public class Api
+    public class ApiWork:INotifyPropertyChanged
     {
-        public Api(string AuthCode= "d29ya3VhQGtsaW9iYS5jb206S1V5QWEkUXU0RkI4VyN0MA==")
+        public ApiWork(string AuthCode= "d29ya3VhQGtsaW9iYS5jb206S1V5QWEkUXU0RkI4VyN0MA==")
         {
-            client = new HttpClient();
+            HttpClientHandler handler = null;
+            handler = new HttpClientHandler
+            {
+                Proxy = new WebProxy("127.0.0.1", 8888)
+            };
+            httpClient = new HttpClient(handler);
             this.AuthCode = AuthCode;
-            client.DefaultRequestHeaders.Authorization =
+            httpClient.DefaultRequestHeaders.Authorization =
                 new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", AuthCode);
             
         }
-        private ItemsApi<Job> itemsJobs;
-        public ItemsApi<Job> ItemsJobs
+        private ObservableCollection<Job> jobs;
+        public ObservableCollection<Job> Jobs
         {
-            get { return itemsJobs; }
-            set { itemsJobs = value; OnPropertyChanged("ItemsJobs"); }
+            get { return jobs; }
+            set { jobs = value; OnPropertyChanged("Jobs"); }
         }
         private ObservableCollection<Response> responses;
         public ObservableCollection<Response> Responses
@@ -31,11 +37,11 @@ namespace WorkUaApiCore
         }
         private string jobsUrl = "https://api.work.ua/jobs/my";
         private string responsesUrl = "https://api.work.ua/jobs/{0}/responces";
-        private HttpClient client;
-        public HttpClient Client
+        private HttpClient httpClient;
+        public HttpClient HttpClient
         {
-            get { return client; }
-            set { client = value; OnPropertyChanged("Client"); }
+            get { return httpClient; }
+            set { httpClient = value; OnPropertyChanged("Client"); }
         }
         private string authCode;
         public string AuthCode
@@ -43,26 +49,26 @@ namespace WorkUaApiCore
             get { return authCode; }
             set { authCode = value; OnPropertyChanged("AuthCode"); }
         }
-        public void GetJobs()
+        private void GetJobs()
         {
-            var v = client.GetAsync(jobsUrl).GetAwaiter().GetResult();
+            var v = httpClient.GetAsync(jobsUrl).GetAwaiter().GetResult();
             string json = v.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-            ItemsJobs = JsonConvert.DeserializeObject<ItemsApi<Job>>(json);
-            
-            ;
+            ItemsApi<Job> ItemsJobs = JsonConvert.DeserializeObject<ItemsApi<Job>>(json);
+            Jobs = ItemsJobs.Items;
         }
         private ItemsApi<Response> GetResponsesFromVacation(int id)
         {
             string url = String.Format(responsesUrl, new object[] { id });
-            var v = client.GetAsync(url).GetAwaiter().GetResult();
+            var v = httpClient.GetAsync(url).GetAwaiter().GetResult();
             string json = v.Content.ReadAsStringAsync().GetAwaiter().GetResult();
             ItemsApi<Response> itemsResponses = JsonConvert.DeserializeObject<ItemsApi<Response>>(json);
             return itemsResponses;
         }
         public void GetResponses()
         {
+            GetJobs();
             Responses = new ObservableCollection<Response>();
-            foreach (var item in itemsJobs.Items)
+            foreach (var item in Jobs)
                 if(item.Active)
                 {
                     ItemsApi<Response> items = GetResponsesFromVacation(item.Id);
@@ -73,6 +79,7 @@ namespace WorkUaApiCore
                         Responses.Add(resp);
                     }
                 }
+            ;
         }
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
