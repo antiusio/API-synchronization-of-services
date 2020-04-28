@@ -11,7 +11,7 @@ namespace DataProcessing
 {
     public class Worker : INotifyPropertyChanged
     {
-        public Worker(string AuthCode = "d29ya3VhQGtsaW9iYS5jb206S1V5QWEkUXU0RkI4VyN0MA==")
+        public Worker(string AuthCode)
         {
             savedDataFile = Directory.GetCurrentDirectory() + @"\Data\JobsWithResponces.json";
             workApi = new ApiWork(AuthCode);

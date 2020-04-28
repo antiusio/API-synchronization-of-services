@@ -10,7 +10,7 @@ namespace WorkUaApiCore
 {
     public class ApiWork:INotifyPropertyChanged
     {
-        public ApiWork(string AuthCode= "d29ya3VhQGtsaW9iYS5jb206S1V5QWEkUXU0RkI4VyN0MA==")
+        public ApiWork(string AuthCode)
         {
             HttpClientHandler handler = null;
             handler = new HttpClientHandler
