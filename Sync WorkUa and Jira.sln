@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.852
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkUaApiCore", "WorkUaApiCore\WorkUaApiCore.csproj", "{886E680C-5F6C-4D1D-9642-BD0D800658AC}"
 EndProject
@@ -9,7 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JiraApiCore", "JiraApiCore\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{9D1D3C44-8859-4078-BE37-99F7795838F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataProcessing", "DataProcessing\DataProcessing.csproj", "{4F754866-F306-4184-B7A6-C1971F55A911}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataProcessing", "DataProcessing\DataProcessing.csproj", "{4F754866-F306-4184-B7A6-C1971F55A911}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore.Docker", "App\NetCore.Docker.csproj", "{A6847149-BE02-4D1C-8460-FCB3F86D6A27}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore.Docker2", "App2\NetCore.Docker2.csproj", "{DB0FF1E9-1689-41BE-9C2D-AD1D47180128}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{4F754866-F306-4184-B7A6-C1971F55A911}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F754866-F306-4184-B7A6-C1971F55A911}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F754866-F306-4184-B7A6-C1971F55A911}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6847149-BE02-4D1C-8460-FCB3F86D6A27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6847149-BE02-4D1C-8460-FCB3F86D6A27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6847149-BE02-4D1C-8460-FCB3F86D6A27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6847149-BE02-4D1C-8460-FCB3F86D6A27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB0FF1E9-1689-41BE-9C2D-AD1D47180128}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB0FF1E9-1689-41BE-9C2D-AD1D47180128}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB0FF1E9-1689-41BE-9C2D-AD1D47180128}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB0FF1E9-1689-41BE-9C2D-AD1D47180128}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

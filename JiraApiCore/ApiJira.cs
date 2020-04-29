@@ -12,12 +12,19 @@ namespace JiraApiCore
 {
     public class ApiJira : INotifyPropertyChanged
     {
-        public ApiJira()
+        private string zapLink;
+        public string ZapLink
         {
+            get { return zapLink; }
+            set { zapLink = value; OnPropertyChanged("ZapLink"); }
+        }
+        public ApiJira(string zapLink)
+        {
+            this.ZapLink = zapLink;
             HttpClientHandler handler = null;
             handler = new HttpClientHandler
             {
-                Proxy = new WebProxy("127.0.0.1", 8888)
+                //Proxy = new WebProxy("127.0.0.1", 8888)
             };
             httpClient = new HttpClient(handler);
         }
@@ -29,14 +36,10 @@ namespace JiraApiCore
         }
         private void AddTextRespToJira(string response)
         {
-            //var requestData = new Dictionary<string, string>();
-            //requestData["text"] = response;
-            //var v = httpClient.PostAsync("https://hooks.zapier.com/hooks/catch/7359656/o5pxfek/", new FormUrlEncodedContent(requestData)).GetAwaiter().GetResult();
-            //var t = 0==0;
             using (var httpClient = new HttpClient())
             {
                 var resp = httpClient.PostAsync(
-                    "https://hooks.zapier.com/hooks/catch/7359656/o5ji1du/",
+                    ZapLink,
                      new StringContent(response, Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
             }
         }

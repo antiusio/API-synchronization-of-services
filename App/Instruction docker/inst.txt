@@ -1,0 +1,11 @@
+﻿cd <...\App>
+dotnet publish -c Release
+
+docker build . -t sync-image -f Dockerfile
+docker create --name core-sync counter-image
+
+docker run -it --rm sync-image                  ///// - запуск
+
+
+docker stop core-sync - stop
+docker rm core-counter delete

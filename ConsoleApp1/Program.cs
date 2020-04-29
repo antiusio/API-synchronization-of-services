@@ -2,6 +2,7 @@
 using JiraApiCore;
 using WorkUaApiCore;
 using DataProcessing;
+using System.IO;
 
 namespace ConsoleApp1
 {
@@ -9,9 +10,14 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            Worker w = new Worker();
-            w.Work();
+            string inputDataFile = Directory.GetCurrentDirectory() + @"\Data\InputData.json";
             
+            Worker w = new Worker(inputDataFile);
+            w.Work();
+            Console.WriteLine("New Responses: {0}",w.NewResponses);
+            Console.ReadKey();
+            //https://hooks.zapier.com/hooks/catch/6241182/o5je7gk/
         }
+        
     }
 }

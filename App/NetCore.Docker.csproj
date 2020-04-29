@@ -1,19 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <ProjectReference Include="..\DataProcessing\DataProcessing.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JiraApiCore\JiraApiCore.csproj" />
-    <ProjectReference Include="..\WorkUaApiCore\WorkUaApiCore.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <None Update="Data\InputData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Data\JobsWithResponces.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

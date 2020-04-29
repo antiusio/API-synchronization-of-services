@@ -15,7 +15,7 @@ namespace WorkUaApiCore
             HttpClientHandler handler = null;
             handler = new HttpClientHandler
             {
-                Proxy = new WebProxy("127.0.0.1", 8888)
+                //Proxy = new WebProxy("127.0.0.1", 8888)
             };
             httpClient = new HttpClient(handler);
             this.AuthCode = AuthCode;
@@ -54,6 +54,8 @@ namespace WorkUaApiCore
             var v = httpClient.GetAsync(jobsUrl).GetAwaiter().GetResult();
             string json = v.Content.ReadAsStringAsync().GetAwaiter().GetResult();
             ItemsApi<Job> ItemsJobs = JsonConvert.DeserializeObject<ItemsApi<Job>>(json);
+            if (ItemsJobs is null)
+                ItemsJobs = new ItemsApi<Job>();
             Jobs = ItemsJobs.Items;
         }
         private ItemsApi<Response> GetResponsesFromVacation(int id)

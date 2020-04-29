@@ -11,11 +11,12 @@ namespace DataProcessing
 {
     public class Worker : INotifyPropertyChanged
     {
-        public Worker(string AuthCode)
+        public Worker(string AuthCode,string zapLink)
         {
-            savedDataFile = Directory.GetCurrentDirectory() + @"\Data\JobsWithResponces.json";
+            savedDataFile = Directory.GetCurrentDirectory() + @"/Data/JobsWithResponces.json";
+            inputDataFile = Directory.GetCurrentDirectory() + @"/Data/InputData.json";
             workApi = new ApiWork(AuthCode);
-            jiraApi = new ApiJira();
+            jiraApi = new ApiJira(zapLink);
             SavedJobsWithResponses = GetSavedJobs();
             SavedResponses = new ObservableCollection<Response>();
             foreach( var job in savedJobsWithResponses)
@@ -24,6 +25,15 @@ namespace DataProcessing
                     foreach (var resp in job.Responses)
                         savedResponses.Add(resp);
             }
+            NewResponses = 0;
+        }
+        public Worker(InputData obj):this(obj.AuthCode,obj.ZapLink)
+        {
+            //obj.SaveData(inputDataFile);
+        }
+        public Worker(string filePath) :this(new InputData(filePath))
+        {
+            inputDataFile = filePath;
         }
         public void Work()
         {
@@ -46,12 +56,49 @@ namespace DataProcessing
                         if (!flag)
                         {
                             JiraApi.AddRespToJira(job, resp);
+                            NewResponses++;
                         }
                     }
                 }
             }
             SavedJobsWithResponses = WorkApi.Jobs;
             SaveJobs();
+        }
+        private int newResponses;
+        public int NewResponses
+        {
+            get { return newResponses; }
+            set { newResponses = value; OnPropertyChanged("NewResponses"); }
+        }
+        public class InputData
+        {
+            public InputData()
+            {
+
+            }
+            public InputData(InputData obj)
+            {
+                this.AuthCode = obj.AuthCode;
+                this.ZapLink = obj.ZapLink;
+            }
+            public InputData(string filePath):this()
+            {
+                try
+                {
+                    string content = File.ReadAllText(filePath);
+                    InputData obj = JsonConvert.DeserializeObject<InputData>(content);
+                    this.AuthCode = obj.AuthCode;
+                    this.ZapLink = obj.ZapLink;
+                }
+                catch { }
+            }
+            public void SaveData(string savedDataFile)
+            {
+                string content = JsonConvert.SerializeObject(this);
+                File.WriteAllText(savedDataFile, content);
+            }
+            public string AuthCode { get; set; }
+            public string ZapLink { get; set; }
         }
         public ObservableCollection<Job> GetSavedJobs()
         {
@@ -73,6 +120,7 @@ namespace DataProcessing
             File.WriteAllText(savedDataFile, content);
         }
         private string savedDataFile;
+        public static  string inputDataFile;
         private ObservableCollection<Response> savedResponses;
         public ObservableCollection<Response> SavedResponses
         {
